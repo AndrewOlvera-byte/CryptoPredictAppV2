@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simplified Dashboard</title>
+  <!-- Include Plotly from CDN -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Minimal CSS -->
+  <style>
+    /* Ensure the graph container is sized explicitly */
+    #graph {
+      width: 600px;
+      height: 400px;
+    }
+    .dynamic-content {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .graph-container, .text-container {
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+    .graph-container {
+      flex: 2;
+    }
+    .text-container {
+      flex: 1;
+    }
+    .graph-controls {
+      margin-bottom: 10px;
+    }
+    .toggle-btn, .sample-data-btn {
+      margin-right: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .toggle-btn.active {
+      background-color: #007aff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Error message -->
+  <div id="error-message" style="color:red; display:none;"></div>
+  
+  <!-- Loading spinner -->
+  <div id="loading" style="display:none;">Loading...</div>
+  
+  <!-- Form to trigger POST request -->
+  <form id="data-form">
+    <input type="text" id="data-input" placeholder="Enter query..." required />
+    <button type="submit">Submit</button>
+  </form>
+  
+  <!-- Dynamic content area -->
+  <div id="dynamic-content"></div>
+  
+  <!-- Include the simplified JavaScript at the end -->
+  <script src="../static/scripts/dashboardScript.js"></script>
+</body>
+</html>

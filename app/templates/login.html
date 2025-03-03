@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="../static/styles/loginStyle.css">
+  <script src="../static/scripts/loginScript.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Left design area with abstract shapes -->
+    <div class="design-area">
+      <div class="branding">
+        <div class="logo">Data<span>Vision</span></div>
+        <h2>Welcome back</h2>
+        <p>Financial insights at your fingertips</p>
+      </div>
+      <div class="shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+    </div>
+
+    <!-- Right form area -->
+    <div class="form-area">
+      <div class="form-container">
+        <h1>Sign In</h1>
+        <p class="subtitle">Access your dashboard and analytics</p>
+
+        <!-- Error message container (initially hidden) -->
+        <div id="errorMessage" class="error-message">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <span></span>
+        </div>
+
+        <!-- Login form -->
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="usernameInput">Username or Email</label>
+            <div class="input-wrapper">
+              <input
+                id="usernameInput"
+                type="text"
+                name="username-email"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="label-row">
+              <label for="passwordInput">Password</label>
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+            <div class="input-wrapper">
+              <input
+                id="passwordInput"
+                type="password"
+                name="password"
+                required
+              />
+            </div>
+          </div>
+          
+          <button id="loginBtn" type="submit" class="primary-button">
+            <span>Sign In</span>
+          </button>
+          
+          <div class="form-footer">
+            <p>Don't have an account? <a href="/registration">Sign Up</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

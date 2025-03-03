@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="../static/styles/registrationStyle.css">
+  <script src="../static/scripts/registrationScript.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Left design area with abstract shapes -->
+    <div class="design-area">
+      <div class="branding">
+        <div class="logo">Data<span>Vision</span></div>
+        <h2>Join our platform</h2>
+        <p>Make data-driven decisions with confidence</p>
+      </div>
+      <div class="shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+    </div>
+
+    <!-- Right form area -->
+    <div class="form-area">
+      <div class="form-container">
+        <h1>Create Account</h1>
+        <p class="subtitle">Start your financial analytics journey</p>
+
+        <!-- Error message container (initially hidden) -->
+        <div id="errorMessage" class="error-message">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <span></span>
+        </div>
+
+        <!-- Registration form -->
+        <form id="registrationForm">
+          <div class="form-group">
+            <label for="emailInput">Email</label>
+            <div class="input-wrapper">
+              <input
+                id="emailInput"
+                type="email"
+                name="email"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <div class="input-wrapper">
+              <input
+                id="usernameInput"
+                type="text"
+                name="username"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <div class="input-wrapper">
+              <input
+                id="passwordInput"
+                type="password"
+                name="password"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPasswordInput">Confirm Password</label>
+            <div class="input-wrapper">
+              <input
+                id="confirmPasswordInput"
+                type="password"
+                name="confirmPassword"
+                required
+              />
+            </div>
+          </div>
+          
+          <button id="registerBtn" type="submit" class="primary-button">
+            <span>Create Account</span>
+          </button>
+          
+          <div class="form-footer">
+            <p>Already have an account? <a href="/login">Sign In</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
