@@ -16,6 +16,7 @@ def login():
         password = request.form.get('password')
         if db.validate_user(username_email, password):
             session['user_id'] = db.get_user_id(username_email)
+            session['username'] = db.get_username(username_email)
             logger.info("User %s logged in", session['user_id'])
             return jsonify({'success': True, 'message': 'Logged in successfully'}), 200
         else:
@@ -52,4 +53,8 @@ def dashboard():
         finally:
             controller.clear_model()
     
-    return render_template('dashboard.html', session_id=session['user_id'])
+    return render_template('dashboard.html', session=session)
+
+@main.route('/chartTest', methods=['GET'])
+def chartTest():
+    return render_template('chartTest.html')

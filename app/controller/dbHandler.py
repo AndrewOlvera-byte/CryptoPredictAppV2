@@ -144,3 +144,19 @@ class dbHandler:
             return None
         finally:
             self.disconnect_from_db()
+
+    def get_username(self, username_email):
+        try:
+            self.connect_to_db()
+            self.cursor = self.connection.cursor(dictionary=True)
+            query = "SELECT username FROM users WHERE username = %s OR email = %s"
+            self.cursor.execute(query, (username_email, username_email))
+            user_data = self.cursor.fetchone()
+            if user_data:
+                return user_data["username"]
+            return None
+        except Error as e:
+            print(f"Error getting username: {e}")
+            return None
+        finally:
+            self.disconnect_from_db()

@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const elementPosition = element.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
       
-      if (elementPosition < windowHeight - 100) {
+      if (elementPosition < windowHeight - 50) {
         if (!element.classList.contains('animated')) {
           element.classList.add('animated');
           element.style.opacity = '1';
@@ -152,16 +152,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const elements = document.querySelectorAll('.feature-card, .pricing-card, .about-content, .about-image');
     
     elements.forEach(element => {
-      element.style.opacity = '0';
+      // Make elements visible by default, then handle animation with CSS
+      element.style.opacity = '1';
+      // Still prepare for animation with transform
       element.style.transform = 'translateY(30px)';
       element.style.transition = 'all 0.8s ease';
+      
+      // Add animated class to trigger immediate transition
+      setTimeout(() => {
+        element.classList.add('animated');
+        element.style.transform = 'translateY(0)';
+      }, 100);
     });
     
     // Call animate once to check initial viewable elements
     animateOnScroll();
   };
   
+  // Call setInitialState when the page loads
   setInitialState();
+  
+  // Also trigger animations when scrolling
   window.addEventListener('scroll', animateOnScroll);
 });
   

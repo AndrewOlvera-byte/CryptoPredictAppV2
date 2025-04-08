@@ -8,8 +8,8 @@
 body, html {
   height: 100%;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #1d1d1f;
-  background-color: #ffffff;
+  color: #505050;
+  background-color: #1a1a1d;
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
@@ -67,47 +67,47 @@ svg {
 }
 
 .btn-primary {
-  background-color: #007aff;
+  background-color: #e92c6c;
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(233, 44, 108, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #0062cc;
+  background-color: #c4265c;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0, 122, 255, 0.4);
+  box-shadow: 0 10px 25px rgba(233, 44, 108, 0.4);
 }
 
 .btn-primary:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.4);
+  box-shadow: 0 2px 8px rgba(233, 44, 108, 0.4);
 }
 
 .btn-login {
-  color: #1d1d1f;
+  color: #505050;
 }
 
 .btn-login:hover {
-  color: #007aff;
+  color: #e92c6c;
   transform: translateY(-1px);
 }
 
 .btn-signup {
-  background-color: #007aff;
+  background-color: #e92c6c;
   color: white;
   padding: 8px 16px;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(233, 44, 108, 0.2);
 }
 
 .btn-signup:hover {
-  background-color: #0062cc;
+  background-color: #c4265c;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 122, 255, 0.3);
+  box-shadow: 0 8px 16px rgba(233, 44, 108, 0.3);
 }
 
 .btn-outline {
-  border: 2px solid #007aff;
-  color: #007aff;
+  border: 2px solid #e92c6c;
+  color: #e92c6c;
   position: relative;
   z-index: 1;
 }
@@ -119,7 +119,7 @@ svg {
   left: 0;
   width: 100%;
   height: 0;
-  background-color: rgba(0, 122, 255, 0.1);
+  background-color: rgba(233, 44, 108, 0.1);
   transition: height 0.3s ease;
   z-index: -1;
   border-radius: 10px;
@@ -127,6 +127,21 @@ svg {
 
 .btn-outline:hover::after {
   height: 100%;
+}
+
+/* New contrasting button for hero section */
+.btn-primary-outline {
+  background-color: #e92c6c;
+  color: white;
+  border-color: #e92c6c;
+}
+
+.btn-primary-outline::after {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary-outline:hover {
+  color: white;
 }
 
 /* Header / Top Navigation */
@@ -154,7 +169,7 @@ svg {
 .logo {
   font-size: 24px;
   font-weight: 600;
-  color: #1d1d1f;
+  color: #505050;
   letter-spacing: -0.5px;
   transition: all 0.3s ease;
 }
@@ -164,7 +179,7 @@ svg {
 }
 
 .logo span {
-  color: #007aff;
+  color: #e92c6c;
   position: relative;
 }
 
@@ -173,7 +188,7 @@ svg {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: #007aff;
+  background: #e92c6c;
   border-radius: 50%;
   bottom: 2px;
   right: -8px;
@@ -192,7 +207,7 @@ svg {
 }
 
 .main-nav a {
-  color: #6e6e73;
+  color: #505050;
   font-weight: 500;
   position: relative;
   transition: color 0.3s ease;
@@ -200,7 +215,7 @@ svg {
 }
 
 .main-nav a:hover {
-  color: #1d1d1f;
+  color: #e0e0e0;
 }
 
 .main-nav a::after {
@@ -210,7 +225,7 @@ svg {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #007aff;
+  background-color: #e92c6c;
   transition: width 0.3s ease;
 }
 
@@ -238,7 +253,7 @@ svg {
   display: block;
   width: 100%;
   height: 2px;
-  background-color: #1d1d1f;
+  background-color: #e0e0e0;
   margin: 6px 0;
   transition: 0.4s;
 }
@@ -269,17 +284,18 @@ svg {
 }
 
 .hero-content h1 {
-  font-size: 56px;
+  font-size: 3.5rem;
   font-weight: 600;
-  line-height: 1.1;
-  margin-bottom: 24px;
-  color: #1d1d1f;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #505050;
   letter-spacing: -0.5px;
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .hero-content p {
   font-size: 18px;
-  color: #6e6e73;
+  color: #505050;
   margin-bottom: 36px;
   line-height: 1.6;
 }
@@ -339,15 +355,15 @@ svg {
   position: absolute;
   width: 12px;
   height: 12px;
-  background-color: #007aff;
+  background-color: #e92c6c;
   border-radius: 50%;
   transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
+  box-shadow: 0 0 10px rgba(233, 44, 108, 0.5);
 }
 
 .chart-mockup:hover .chart-dots span {
   transform: scale(1.2);
-  box-shadow: 0 0 20px rgba(0, 122, 255, 0.8);
+  box-shadow: 0 0 20px rgba(233, 44, 108, 0.8);
 }
 
 .chart-dots span:nth-child(1) {
@@ -433,16 +449,12 @@ svg {
   z-index: -1;
 }
 
-.features h2 {
-  text-align: center;
-  font-size: 40px;
+.features h2, .pricing h2, .about-content h2 {
+  font-size: 36px;
   font-weight: 600;
-  margin-bottom: 60px;
-  color: #1d1d1f;
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-bottom: 16px;
+  text-align: center;
+  color: #505050;
 }
 
 .features h2::after {
@@ -453,7 +465,7 @@ svg {
   transform: translateX(-50%);
   width: 70px;
   height: 4px;
-  background: linear-gradient(90deg, #007aff, #5ac8fa);
+  background: linear-gradient(90deg, #e92c6c, #5ac8fa);
   border-radius: 2px;
 }
 
@@ -463,7 +475,7 @@ svg {
   gap: 40px;
 }
 
-.feature-card {
+.feature-card, .pricing-card {
   background-color: #fff;
   border-radius: 20px;
   padding: 40px 30px;
@@ -473,6 +485,7 @@ svg {
   z-index: 1;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+  opacity: 1 !important; /* Ensure visibility even if JS fails */
 }
 
 .feature-card::before {
@@ -510,14 +523,14 @@ svg {
 }
 
 .feature-card:hover .feature-icon {
-  background-color: #007aff;
+  background-color: #e92c6c;
   transform: scale(1.1);
 }
 
 .feature-icon svg {
   width: 32px;
   height: 32px;
-  color: #007aff;
+  color: #e92c6c;
   transition: all 0.3s ease;
 }
 
@@ -526,18 +539,18 @@ svg {
 }
 
 .feature-card h3 {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  font-size: 20px;
+  margin: 16px 0 8px;
+  color: #505050;
   transition: all 0.3s ease;
 }
 
 .feature-card:hover h3 {
-  color: #007aff;
+  color: #e92c6c;
 }
 
 .feature-card p {
-  color: #6e6e73;
+  color: #505050;
   line-height: 1.6;
 }
 
@@ -570,18 +583,10 @@ svg {
   z-index: 0;
 }
 
-.pricing h2 {
-  text-align: center;
-  font-size: 40px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #1d1d1f;
-}
-
 .pricing-subtitle {
   text-align: center;
   font-size: 18px;
-  color: #6e6e73;
+  color: #505050;
   margin-bottom: 60px;
 }
 
@@ -594,10 +599,7 @@ svg {
 }
 
 .pricing-card {
-  background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+  /* Keeping only unique styles for pricing cards */
   transition: all 0.4s ease;
 }
 
@@ -638,12 +640,13 @@ svg {
   margin-bottom: 15px;
   position: relative;
   z-index: 1;
+  color: #333333;
 }
 
 .price {
   font-size: 40px;
   font-weight: 700;
-  color: #007aff;
+  color: #e92c6c;
   position: relative;
   z-index: 1;
 }
@@ -651,7 +654,7 @@ svg {
 .price span {
   font-size: 16px;
   font-weight: normal;
-  color: #6e6e73;
+  color: #555555;
 }
 
 .card-body {
@@ -673,7 +676,7 @@ svg {
   content: '✓';
   position: absolute;
   left: 0;
-  color: #007aff;
+  color: #e92c6c;
   font-weight: bold;
 }
 
@@ -711,12 +714,12 @@ svg {
   left: 0;
   width: 70px;
   height: 4px;
-  background: linear-gradient(90deg, #007aff, #5ac8fa);
+  background: linear-gradient(90deg, #e92c6c, #5ac8fa);
   border-radius: 2px;
 }
 
 .about-content p {
-  color: #6e6e73;
+  color: #505050;
   line-height: 1.7;
   margin-bottom: 20px;
 }
@@ -753,13 +756,14 @@ svg {
 .stat-number {
   font-size: 36px;
   font-weight: 700;
-  color: #007aff;
+  color: #e92c6c;
   margin-bottom: 10px;
 }
 
 .stat-label {
-  color: #6e6e73;
   font-size: 14px;
+  color: #505050;
+  font-weight: 500;
 }
 
 /* Footer */
@@ -817,7 +821,7 @@ svg {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #1d1d1f;
+  color: #505050;
 }
 
 .link-group ul li {
@@ -825,14 +829,14 @@ svg {
 }
 
 .link-group ul li a {
-  color: #6e6e73;
+  color: #505050;
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
 }
 
 .link-group ul li a:hover {
-  color: #007aff;
+  color: #e92c6c;
   transform: translateX(5px);
 }
 
@@ -846,7 +850,7 @@ svg {
 }
 
 .footer-bottom p {
-  color: #6e6e73;
+  color: #505050;
   font-size: 14px;
 }
 
@@ -869,10 +873,10 @@ svg {
 }
 
 .social-links a:hover {
-  background-color: #007aff;
+  background-color: #e92c6c;
   color: #fff;
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(233, 44, 108, 0.3);
 }
 
 /* Animation keyframes */

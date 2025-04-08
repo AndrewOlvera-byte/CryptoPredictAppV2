@@ -138,8 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       .input-wrapper.focused {
-        box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
-        background-color: #fff;
+        box-shadow: 0 0 0 2px rgba(233, 44, 108, 0.3);
+        background-color: #2c2c30;
       }
       
       .label-row label {
@@ -147,7 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       .label-row label.active {
-        color: #007aff;
+        color: #e92c6c;
+        font-weight: 500;
+      }
+      
+      label.active {
+        color: #e92c6c;
         font-weight: 500;
       }
     `;

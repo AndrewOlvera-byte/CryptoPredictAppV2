@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_talisman import Talisman
 import logging
 from app.config import Config
 
@@ -9,22 +8,9 @@ def create_app():
     app.config.from_object(Config)
 
     # Define a Plotly-friendly CSP
-    csp = {
-        'default-src': ['\'self\'', 'data:', 'blob:'],
-        'script-src': ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\'', 'https://cdn.plot.ly'],
-        'style-src': ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com'],
-        'font-src': ['\'self\'', 'https://fonts.gstatic.com'],
-        'img-src': ['\'self\'', 'data:', 'blob:'],
-        'connect-src': ['\'self\''],
-        'worker-src': ['\'self\'', 'blob:']
-    }
     
-    # Replace the current Talisman initialization
-    talisman = Talisman(
-        app,
-        content_security_policy=csp,
-        content_security_policy_nonce_in=['script-src']
-    )
+    
+    
     # Set up logging
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)

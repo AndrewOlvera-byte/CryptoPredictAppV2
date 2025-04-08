@@ -26,6 +26,7 @@ def load_model():
     # Set model key
     user_id = session['user_id']
     model_key = get_model_key(user_id)
+    g.model_key = model_key
 
     # Get model from Redis if available or create new model
     try:
@@ -65,7 +66,6 @@ def load_model():
     
 
     g.model = model
-    g.model_key = model_key
 
 def save_model(response):
     if hasattr(g, 'model') and hasattr(g, 'model_key'):
@@ -79,6 +79,18 @@ def save_model(response):
             redis_client.set(g.model_key, g.model.to_json())
         except Exception as e:
             logger.error("Error saving model to Redis: %s", e)
+
+    # Set an extremely relaxed CSP for development
+    response.headers['Content-Security-Policy'] = (
+        "default-src * data: blob:; " 
+        "script-src * data: blob: 'unsafe-inline' 'unsafe-eval'; " 
+        "style-src * data: blob: 'unsafe-inline'; " 
+        "img-src * data: blob:; " 
+        "font-src * data: blob:; " 
+        "connect-src * data: blob:; " 
+        "media-src * data: blob:; " 
+        "object-src * data: blob:; "
+    )
     return response
 
 def init_hooks(app):
