@@ -552,49 +552,80 @@ svg {
 .history-dropdown {
   position: absolute;
   top: 60px;
-  right: 72px;
+  right: 100px;
   width: 250px;
   background-color: #222225;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  overflow: hidden;
-  display: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-20px);
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 100;
 }
 
 .history-dropdown.active {
-  display: block;
   opacity: 1;
   transform: translateY(0);
+  visibility: visible;
 }
 
 .history-dropdown-content {
-  padding: 20px;
-  color: #e0e0e0;
-  text-align: center;
-  font-size: 14px;
-}
-
-/* Future use: styles for when predictions exist */
-.history-dropdown-item {
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  padding: 15px;
+  max-height: 300px;
+  overflow-y: auto;
   display: flex;
-  align-items: center;
-  color: #e0e0e0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-direction: column;
+  gap: 5px;
 }
 
-.history-dropdown-item:last-child {
-  border-bottom: none;
+.history-dropdown-item {
+  padding: 12px 15px;
+  border-radius: 8px;
+  background-color: #2a2a2d;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  border: none;
+  font-size: 14px;
+  font-family: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .history-dropdown-item:hover {
   background-color: rgba(233, 44, 108, 0.15);
+  color: #e92c6c;
+}
+
+/* Style for history items that should look like links */
+.history-dropdown-item[data-response-id] {
+  background-color: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 5px;
+  color: #a0a0a0;
+  transition: color 0.2s ease;
+}
+
+.history-dropdown-item[data-response-id]:hover {
+  background-color: transparent;
+  color: #e92c6c;
+}
+
+/* Add margin to separate All History button from the list */
+.history-dropdown-item:not([data-response-id]) {
+  margin-bottom: 10px;
+}
+
+.history-dropdown-empty {
+  color: #8e8e96;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
 }
 
 /* Back button styling */

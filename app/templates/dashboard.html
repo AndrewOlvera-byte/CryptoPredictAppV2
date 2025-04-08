@@ -26,7 +26,14 @@
         <!-- History dropdown -->
         <div class="history-dropdown">
           <div class="history-dropdown-content">
-            No Past Predictions
+            <button class="history-dropdown-item" onclick="window.location.href='/history'">All History</button>
+            {% if session['last_5_responses'] %}
+              {% for response in session['last_5_responses'] %}
+                <button class="history-dropdown-item" data-response-id="{{ response['response_id'] }}" data-response-data="{{ response['response_data'] }}" data-header="{{ response['header'] }}">{{ response['header'] }}</button>
+              {% endfor %}
+            {% else %}
+              <div class="history-dropdown-empty">No Past Predictions</div>
+            {% endif %}
           </div>
         </div>
         <div class="user-profile profile-btn">
@@ -51,7 +58,7 @@
       <div id="input-container" class="input-container">
         <form id="data-form">
           <div class="input-wrapper">
-            <input type="text" id="data-input" placeholder="Enter query (e.g., 'bitcoin', 'ethereum')" required>
+            <input type="text" id="data-input" name="formData" placeholder="Enter query (e.g., 'bitcoin', 'ethereum')" required>
             <button type="submit" class="submit-btn">
               <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>

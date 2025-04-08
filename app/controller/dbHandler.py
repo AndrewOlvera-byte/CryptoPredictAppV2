@@ -179,7 +179,7 @@ class dbHandler:
     def add_response_to_db(self, user_id, prod_id, response):
         try:
             self.cursor = self.connection.cursor()
-            query = ""
+            query = "INSERT INTO responses (user_id, header, response_data) VALUES (%s, %s, %s)"
             self.cursor.execute(query, (user_id, prod_id, response))
             self.connection.commit()
         except Error as e:
@@ -188,10 +188,20 @@ class dbHandler:
     def get_last_5_responses(self, user_id):
         try:
             self.cursor = self.connection.cursor(dictionary=True)
-            query = ""
+            query = "SELECT * FROM responses WHERE user_id = %s ORDER BY response_id DESC LIMIT 5"
             self.cursor.execute(query, (user_id,))
             responses = self.cursor.fetchall()
             return responses
         except Error as e:
             print(f"Error getting last 5 responses: {e}")
             return None
+
+
+if __name__ == "__main__":
+    import json
+    db = dbHandler()
+    db.connect_to_db()
+    json_data = json.dumps({"BTC": 10000, "ETH": 20000, "XRP": 30000})
+    db.add_response_to_db(1, "BTC", json_data)
+    db.disconnect_from_db()
+

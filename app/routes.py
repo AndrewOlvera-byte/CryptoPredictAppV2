@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, request, jsonify, g, redirect, url_for
 from app.extensions import controller, db
 import logging
-
+import json
 main = Blueprint('main', __name__)
 logger = logging.getLogger(__name__)
 
@@ -43,12 +43,12 @@ def dashboard():
     controller.setModel(g.model)
     session['last_5_responses'] = db.get_last_5_responses(session['user_id'])
     if request.method == 'POST':
-        prod_id = request.form.get('prod_id')
+        prod_id = request.form.get('formData')
         if g.model.hasQueries():
             try:
                 g.model.user.update_query_count(1)
                 predictions_list = controller.get_inference()
-                db.add_response_to_db(session['user_id'], prod_id, predictions_list)
+                db.add_response_to_db(session['user_id'], prod_id, json.dumps(predictions_list))
                 return jsonify({'response': predictions_list})
             except Exception as e:
                 logger.error("Error generating response: %s", e)
@@ -126,4 +126,3 @@ def update_subscription():
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     return jsonify({'error': 'Invalid request method'}), 405
-

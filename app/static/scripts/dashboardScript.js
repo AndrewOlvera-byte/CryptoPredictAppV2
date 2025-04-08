@@ -25,6 +25,33 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
+  // Add event listeners to history dropdown items
+  const historyItems = document.querySelectorAll('.history-dropdown-item[data-response-id]');
+  historyItems.forEach(item => {
+    item.addEventListener('click', function() {
+      // Close the dropdown
+      historyDropdown.classList.remove("active");
+      
+      // Get the response data from the data attribute
+      const responseData = JSON.parse(this.getAttribute('data-response-data'));
+      const header = this.getAttribute('data-header');
+      
+      // Hide welcome text and move input up if not already done
+      if (!welcomeHidden) {
+        welcomeText.classList.add("hidden");
+        inputContainer.classList.add("moved-up");
+        welcomeHidden = true;
+      }
+      
+      // Update UI with the selected prediction data
+      updateCards(responseData);
+      
+      // Add back button
+      hasActiveResult = true;
+      setTimeout(addBackButton, 100);
+    });
+  });
+
   // Profile button functionality
   const profileBtn = document.querySelector(".profile-btn");
   profileBtn.addEventListener("click", function() {
