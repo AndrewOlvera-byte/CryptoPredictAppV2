@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const welcomeText = document.querySelector(".welcome-text");
   const inputContainer = document.getElementById("input-container");
   
+  
   // History dropdown functionality
   const historyBtn = document.querySelector(".history-btn");
   const historyDropdown = document.querySelector(".history-dropdown");
@@ -23,6 +24,14 @@ document.addEventListener("DOMContentLoaded", function() {
       historyDropdown.classList.remove("active");
     }
   });
+
+  // Profile button functionality
+  const profileBtn = document.querySelector(".profile-btn");
+  profileBtn.addEventListener("click", function() {
+    window.location.href = "/profile";
+  });
+
+  
 
   // Default state variables
   let currentChartType = 'line';

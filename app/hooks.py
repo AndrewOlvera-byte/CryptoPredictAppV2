@@ -37,7 +37,7 @@ def load_model():
 
     if json_data is None:
         # Create a new composite Model if not found
-        user = User("", "", "")
+        user = User("", "", "", 0, 0, "", "")
         query = Query()
         response_obj = Response()
         model = Model(user, query, response_obj)
@@ -83,7 +83,7 @@ def save_model(response):
     # Set an extremely relaxed CSP for development
     response.headers['Content-Security-Policy'] = (
         "default-src * data: blob:; " 
-        "script-src * data: blob: 'unsafe-inline' 'unsafe-eval'; " 
+        "script-src * 'self' https://cdn.plot.ly data: blob: 'unsafe-inline' 'unsafe-eval';"
         "style-src * data: blob: 'unsafe-inline'; " 
         "img-src * data: blob:; " 
         "font-src * data: blob:; " 

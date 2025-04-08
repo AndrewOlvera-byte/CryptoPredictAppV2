@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <title>Augur - Profile</title>
+  <title>Profile</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="../static/styles/profileStyle.css">
-  
-  <script src="../static/scripts/profileScript.js" defer></script>
 </head>
 <body>
   <div class="main-container">
@@ -30,19 +28,23 @@
           </div>
           <div class="profile-field">
             <span class="field-label">Email:</span>
-            <span class="field-value editable" data-field="email">example@email.com</span>
+            <span class="field-value editable" data-field="email">{{ session['email'] }}</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Password:</span>
+            <span class="field-value editable" data-field="password">{{ session['password'] }}</span>
           </div>
           <div class="profile-field">
             <span class="field-label">Account Type:</span>
-            <span class="field-value editable" data-field="account_type">Premium</span>
+            <span class="field-value" data-field="account_type">{{ session['subscription'] }}</span>
           </div>
           <div class="profile-field">
-            <span class="field-label">Member Since:</span>
-            <span class="field-value" data-field="member_since">January 15, 2023</span>
+            <span class="field-label">Last Reset Date:</span>
+            <span class="field-value" data-field="member_since">{{ session['last_reset_date'] }}</span>
           </div>
           <div class="profile-field">
-            <span class="field-label">Last Login:</span>
-            <span class="field-value" data-field="last_login">Today, 10:45 AM</span>
+            <span class="field-label">Current Query Count:</span>
+            <span class="field-value" data-field="last_login">{{ session['current_query_count'] }}</span>
           </div>
         </div>
         
@@ -60,9 +62,9 @@
       
       <button class="back-btn" onclick="window.location.href='/dashboard'">
         <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Dashboard
       </button>
     </div>
   </div>
 </body>
+<script src="../static/scripts/profileScript.js" defer></script>
 </html>

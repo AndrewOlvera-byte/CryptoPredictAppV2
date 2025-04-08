@@ -40,14 +40,13 @@ def registration():
 
 @main.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    # Dashboard page
-    # POST request to get predictions
     controller.setModel(g.model)
     session['last_5_responses'] = db.get_last_5_responses(session['user_id'])
     if request.method == 'POST':
         prod_id = request.form.get('prod_id')
         if g.model.hasQueries():
             try:
+                g.model.user.update_query_count(1)
                 predictions_list = controller.get_inference()
                 db.add_response_to_db(session['user_id'], prod_id, predictions_list)
                 return jsonify({'response': predictions_list})
@@ -63,51 +62,21 @@ def dashboard():
 
 @main.route('/profile', methods=['GET', 'POST'])
 def profile():
+    session['username'] = g.model.user.username
+    session['email'] = g.model.user.email
+    session['password'] = g.model.user.password
+    subscription_type = g.model.user.subscription_type
+    if subscription_type == "free":
+        session['subscription'] = "Free"
+    elif subscription_type == "premium":
+        session['subscription'] = "Premium"
+    session['current_query_count'] = g.model.user.current_query_count
+    session['last_reset_date'] = g.model.user.last_reset_date
     return render_template('profile.html', session=session)
-
-@main.route('/api/update_username', methods=['GET', 'POST'])
-def update_username():
-    controller.setModel(g.model)
-    if request.method == 'POST':
-        username = request.form.get('username')
-        if db.update_username(session['user_id'], username):
-            controller.update_username(username)
-            return jsonify({'success': True, 'message': 'Username updated successfully'}), 200
-        else:
-            return jsonify({'error': 'Failed to update username'}), 400
-    return jsonify({'error': 'Invalid request method'}), 405
-
-@main.route('/api/update_email', methods=['GET', 'POST'])
-def update_email():
-    controller.setModel(g.model)
-    if request.method == 'POST':
-        email = request.form.get('email')
-        if db.update_email(session['user_id'], email):
-            controller.update_email(email)
-            return jsonify({'success': True, 'message': 'Email updated successfully'}), 200
-        else:
-            return jsonify({'error': 'Failed to update email'}), 400
-    return jsonify({'error': 'Invalid request method'}), 405
-
-@main.route('/api/update_password', methods=['GET', 'POST'])
-def update_password():
-    controller.setModel(g.model)
-    if request.method == 'POST':
-        password = request.form.get('password')
-        if db.update_password(session['user_id'], password):
-            controller.update_password(password)
-            return jsonify({'success': True, 'message': 'Password updated successfully'}), 200
-        else:
-            return jsonify({'error': 'Failed to update password'}), 400
-    return jsonify({'error': 'Invalid request method'}), 405
 
 @main.route('/chartTest', methods=['GET'])
 def chartTest():
     return render_template('chartTest.html')
-
-@main.route('/profile', methods=['GET', 'POST'])
-def profile():
-    return render_template('profile.html', session=session)
 
 @main.route('/history', methods=['GET'])
 def history():
@@ -118,7 +87,8 @@ def update_username():
     if request.method == 'POST':
         username = request.form.get('username')
         try:
-            db.update_username(username)
+            db.update_username(username, session['user_id'])
+            session['username'] = username
             return jsonify({'success': True, 'message': 'Username updated successfully'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -129,7 +99,7 @@ def update_password():
     if request.method == 'POST':
         password = request.form.get('password')
         try:
-            db.update_password(password)
+            db.update_password(password, session['user_id'])
             return jsonify({'success': True, 'message': 'Password updated successfully'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -140,7 +110,7 @@ def update_email():
     if request.method == 'POST':
         email = request.form.get('email')
         try:
-            db.update_email(email)
+            db.update_email(email, session['user_id'])
             return jsonify({'success': True, 'message': 'Email updated successfully'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500

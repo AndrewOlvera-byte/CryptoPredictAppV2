@@ -91,7 +91,7 @@ svg {
 /* Back button */
 .back-btn {
   position: absolute;
-  left: 40px;
+  left: 500px;
   top: 20px;
   display: flex;
   align-items: center;
@@ -105,10 +105,10 @@ svg {
   transition: all 0.3s ease;
   font-size: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(50px);
 }
 
 .back-btn:hover {
-  transform: translateX(-5px);
   background-color: #2c2c30;
   color: #e92c6c;
 }

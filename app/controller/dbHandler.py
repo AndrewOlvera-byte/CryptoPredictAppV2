@@ -140,38 +140,38 @@ class dbHandler:
             print(f"Error getting username: {e}")
             return None
 
-    def update_username(self, username):
+    def update_username(self, username, user_id):
         try:
             self.cursor = self.connection.cursor()
-            query = ""
-            self.cursor.execute(query, (username, username))
+            query = "UPDATE users SET username = %s WHERE user_id = %s"
+            self.cursor.execute(query, (username, user_id))
             self.connection.commit()
         except Error as e:
             print(f"Error updating username: {e}")
 
-    def update_password(self, password):
+    def update_password(self, password, user_id):
         try:
             self.cursor = self.connection.cursor()
-            query = ""
-            self.cursor.execute(query, (password, password))
+            query = "UPDATE users SET password = %s WHERE user_id = %s"
+            self.cursor.execute(query, (password, user_id))
             self.connection.commit()
         except Error as e:
             print(f"Error updating password: {e}")
 
-    def update_email(self, email):
+    def update_email(self, email, user_id):
         try:
             self.cursor = self.connection.cursor()
-            query = ""
-            self.cursor.execute(query, (email, email))
+            query = "UPDATE users SET email = %s WHERE user_id = %s"
+            self.cursor.execute(query, (email, user_id))
             self.connection.commit()
         except Error as e:
             print(f"Error updating email: {e}")
 
-    def update_subscription(self, subscription):
+    def update_subscription(self, subscription, user_id):
         try:
             self.cursor = self.connection.cursor()
-            query = ""
-            self.cursor.execute(query, (subscription, subscription))
+            query = "UPDATE users SET subscription_type = %s WHERE user_id = %s"
+            self.cursor.execute(query, (subscription, user_id))
             self.connection.commit()
         except Error as e:
             print(f"Error updating subscription: {e}")

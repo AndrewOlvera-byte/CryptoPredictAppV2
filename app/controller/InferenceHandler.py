@@ -7,7 +7,7 @@ class InferenceHandler:
         self.model = CryptoLSTM(
 
             input_size=5,
-            hidden_size=32,
+            hidden_size=64,
             output_size=5,
             num_layers=1,
             dropout=0.0,
