@@ -2,35 +2,9 @@ import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
-# ------------------------------------------------------------
-#Copied from CryptoLSTM.py
-# ------------------------------------------------------------
-# Model parameters (using 5 features)
-input_size = 5         # Number of features: open, high, low, close, volume
-hidden_size = 64
-output_size = 5        # Must match input_size
-num_layers = 1
-dropout = 0.1
-seq_length = 365       # One year of historical data
-prediction_length = 365  # Predict one year into the future
-batch_size = 256
-num_epochs = 10
-learning_rate = 0.001
-
 
 class CryptoLSTM(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers=1, dropout=0.0, prediction_length=365):
-        """
-        Initializes the CryptoLSTM model.
-
-        Args:
-            input_size (int): Number of input features.
-            hidden_size (int): Number of features in the hidden state.
-            output_size (int): Number of output features.
-            num_layers (int): Number of recurrent layers.
-            dropout (float): Dropout probability between LSTM layers.
-            prediction_length (int): Number of future timesteps to predict.
-        """
         super(CryptoLSTM, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -59,17 +33,6 @@ class CryptoLSTM(nn.Module):
         self.fc = nn.Linear(hidden_size, output_size)
 
     def forward(self, x):
-        """
-        Forward pass of the model.
-
-        Args:
-            x: Tensor of shape (batch_size, sequence_length, input_size)
-               representing the historical data.
-
-        Returns:
-            outputs: Tensor of shape (batch_size, prediction_length, output_size)
-                     representing the predicted future sequence.
-        """
         batch_size = x.size(0)
 
         # Encode the historical sequence; only use the final hidden and cell states.
@@ -92,15 +55,6 @@ class CryptoLSTM(nn.Module):
 
 
 def data_to_tensor(json_data):
-    """
-    Converts JSON data into a NumPy array suitable for LSTM inference.
-
-    Parameters:
-        json_data (list of dict): JSON data where each dict has keys 'open', 'high', 'low', 'close', 'volume'
-
-    Returns:
-        np.ndarray: A NumPy array with shape (365, 5) where each row is a timestep.
-    """
     print("Data received:", json_data)
     df = pd.DataFrame(json_data)
     print("DataFrame columns:", df.columns)
@@ -126,86 +80,16 @@ def data_to_tensor(json_data):
 
     return data_array
 
-
-def model_predict(json_data):
-    """
-    Uses the CryptoLSTM model to make predictions based on the input JSON data.
-    """
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    data_array = data_to_tensor(json_data)
-    # Convert to tensor and add a batch dimension (resulting shape: (1, 365, 5))
-    data_tensor = torch.tensor(data_array, dtype=torch.float32).unsqueeze(0).to(device)
-
-    # Initialize the model with input_size=5 and output_size=5.
-    model_instance = CryptoLSTM(
-        input_size=input_size,
-        hidden_size=hidden_size,
-        output_size=output_size,
-        num_layers=num_layers,
-        dropout=dropout,
-        prediction_length=prediction_length
-    )
-    model_instance.to(device)
-    # Load the state dictionary (ensure the saved model matches this architecture)
-    state_dict = torch.load('C:/CryptoClaudeApp/Training/models/cryptoLSTMmodelV1.pth', map_location=device)
-    model_instance.load_state_dict(state_dict)
-    model_instance.eval()
-
-    predictions = model_instance(data_tensor)
-    return predictions
-
-
 def output_tensor_to_data(tensor):
-    """
-    Converts a NumPy array (tensor) with shape (prediction_length, output_size) into a JSON string.
-
-    Parameters:
-        tensor (np.ndarray): A NumPy array with shape (prediction_length, output_size).
-
-    Returns:
-        str: A JSON string where each row is represented as a dictionary with keys:
-             'open', 'high', 'low', 'close', 'volume'.
-    """
     # Define the column names corresponding to the features.
     columns = ['open', 'high', 'low', 'close', 'volume']
     df = pd.DataFrame(tensor, columns=columns)
     json_str = df.to_json(orient='records')
     return json_str
 
-
-def get_prediction_output(json_data):
-    """
-    Generates predictions using the model from JSON input data and returns the predictions as a JSON string.
-    """
-    predictions = model_predict(json_data)
-    # Remove the batch dimension and convert the predictions to a NumPy array.
-    predictions_np = predictions.squeeze(0).detach().cpu().numpy()
-    return output_tensor_to_data(predictions_np)
-
-def model_predict_as_list(json_data):
-    """
-    A convenience function that:
-      1) Converts input JSON data -> NumPy array -> PyTorch tensor
-      2) Runs inference
-      3) Converts the predictions to a Python list of dictionaries
-    """
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+def model_predict_as_list(json_data, model_instance, device):
     data_array = data_to_tensor(json_data)
     data_tensor = torch.tensor(data_array, dtype=torch.float32).unsqueeze(0).to(device)
-
-    model_instance = CryptoLSTM(
-        input_size=5,
-        hidden_size=64,
-        output_size=5,
-        num_layers=1,
-        dropout=0.1,
-        prediction_length=365
-    ).to(device)
-
-    state_dict = torch.load('C:/CryptoClaudeApp/Training/models/cryptoLSTMmodelV1.pth',
-                            map_location=device)
-    model_instance.load_state_dict(state_dict)
-    model_instance.eval()
 
     predictions = model_instance(data_tensor)
     predictions_np = predictions.squeeze(0).detach().cpu().numpy()  # shape: (365, 5)

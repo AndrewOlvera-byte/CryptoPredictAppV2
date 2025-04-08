@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Augur - Profile</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="../static/styles/profileStyle.css">
+  
+  <script src="../static/scripts/profileScript.js" defer></script>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Top navigation bar -->
+    <header class="top-bar">
+      <!-- Logo on the left -->
+      <div class="logo">Au<span>gur</span></div>
+    </header>
+    
+    <!-- Main content area -->
+    <div class="content-area">
+      <div class="profile-container">
+        <h2 class="profile-title">Account Profile</h2>
+        
+        <div class="profile-content">
+          <div class="profile-field">
+            <span class="field-label">Username:</span>
+            <span class="field-value editable" data-field="username">{{ session['username'] }}</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Email:</span>
+            <span class="field-value editable" data-field="email">example@email.com</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Account Type:</span>
+            <span class="field-value editable" data-field="account_type">Premium</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Member Since:</span>
+            <span class="field-value" data-field="member_since">January 15, 2023</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Last Login:</span>
+            <span class="field-value" data-field="last_login">Today, 10:45 AM</span>
+          </div>
+        </div>
+        
+        <div class="profile-actions">
+          <button id="edit-btn" class="action-btn edit-btn">
+            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            Edit Profile
+          </button>
+          <button id="save-btn" class="action-btn save-btn" style="display: none;">
+            <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+            Save Changes
+          </button>
+        </div>
+      </div>
+      
+      <button class="back-btn" onclick="window.location.href='/dashboard'">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        Back to Dashboard
+      </button>
+    </div>
+  </div>
+</body>
+</html>

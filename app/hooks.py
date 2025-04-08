@@ -15,7 +15,7 @@ def get_model_key(user_id):
 
 def load_model():
     # Function called before each request
-    protected_endpoints = ['main.dashboard']  # note: blueprint routes are prefixed
+    protected_endpoints = ['main.dashboard', 'main.profile']  # note: blueprint routes are prefixed
     if request.endpoint not in protected_endpoints:
         return
 
@@ -52,7 +52,7 @@ def load_model():
             model = Model.from_json(json_data)
         except Exception as e:
             logger.error("Deserialization error: %s", e)
-            user = User("", "", "")
+            user = User("", "", "", 0, 0, "", "")
             query = Query()
             response_obj = Response()
             model = Model(user, query, response_obj)

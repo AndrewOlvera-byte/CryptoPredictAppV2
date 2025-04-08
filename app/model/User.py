@@ -2,14 +2,14 @@ from datetime import datetime
 import json
 
 class User:
-    def __init__(self, username, password, email):
+    def __init__(self, username, password, email, current_query_count, query_limit, last_reset_date, subscription_type):
         self.username = username
         self.password = password
         self.email = email
-        self.current_query_count = 0
-        self.query_limit = 100
-        self.last_reset_date = ""
-        self.subscription_type = "Base"
+        self.current_query_count = current_query_count
+        self.query_limit = query_limit
+        self.last_reset_date = last_reset_date
+        self.subscription_type = subscription_type
     
     def update_query_count(self, query_count):
         self.current_query_count += query_count
@@ -52,11 +52,11 @@ class User:
         self.subscription_type = subscription_type
         
         if self.subscription_type == "free":
-            self.query_limit = 3
+            self.query_limit = 10
         elif self.subscription_type == "premium":
-            self.query_limit = 20
+            self.query_limit = 100
         elif self.subscription_type == "special":
-            self.query_limit = 50
+            self.query_limit = 10000
 
     def to_json(self):
         if isinstance(self.last_reset_date, datetime):

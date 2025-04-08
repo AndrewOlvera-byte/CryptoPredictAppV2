@@ -1,15 +1,15 @@
-from .inferenceFuncs import model_predict_as_list
-
+from .InferenceHandler import InferenceHandler
 class Controller:
-    def __init__(self):
+    def __init__(self, inference_handler):
         self.model = None
+        self.inference_handler = inference_handler
         
     def setModel(self, model):
         self.model = model
     
     def get_inference(self):
         data = self.generate_ohlcv_data_test()
-        predictions_list = model_predict_as_list(data)
+        predictions_list = self.get_inference_handler_inference(data)
         # Add day attribute to jsons for plotly
         for i, pred in enumerate(predictions_list):
             pred['day'] = i + 1
@@ -40,3 +40,6 @@ class Controller:
     def clear_model(self):
         self.model.response.set_prediction_json({})
         self.model.query.set_prod_id("")
+
+    def get_inference_handler_inference(self, data):
+        return self.inference_handler.inference(data)

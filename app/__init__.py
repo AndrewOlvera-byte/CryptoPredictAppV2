@@ -6,10 +6,6 @@ def create_app():
     app = Flask(__name__)
     
     app.config.from_object(Config)
-
-    # Define a Plotly-friendly CSP
-    
-    
     
     # Set up logging
     logging.basicConfig(level=logging.INFO)

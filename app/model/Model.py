@@ -41,3 +41,15 @@ class Model:
             Query.from_json(json_data['query']),
             Response.from_json(json_data['response'])
         )
+    
+    def hasQueries(self):
+        total_queries = self.user.current_query_count
+        subType = self.user.subscription_type
+        if subType == "free":
+            return total_queries < 10
+        elif subType == "premium":
+            return total_queries < 100
+        elif subType == "special":
+            return True
+        else:
+            return False

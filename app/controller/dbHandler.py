@@ -31,8 +31,7 @@ class dbHandler:
             print("Database connection closed")
     
     def get_user_data(self, user_id):
-        try:
-            self.connect_to_db()  
+        try:  
             self.cursor = self.connection.cursor(dictionary=True)
             query = "SELECT * FROM users WHERE user_id = %s"
             self.cursor.execute(query, (user_id,))
@@ -57,27 +56,21 @@ class dbHandler:
         except Error as e:
             print(f"Error fetching user data: {e}")
             return None
-        finally:
-            self.disconnect_from_db()
     
     def update_user_data(self, user_id, username, password, email, current_query_count, query_limit, last_reset_date, subscription_type):
         try:
-            self.connect_to_db()
             self.cursor = self.connection.cursor()
             query = "UPDATE users SET username = %s, password = %s, email = %s, current_query_count = %s, query_limit = %s, last_reset_date = %s, subscription_type = %s WHERE user_id = %s"
             self.cursor.execute(query, (username, password, email, current_query_count, query_limit, last_reset_date, subscription_type, user_id))
             self.connection.commit()
         except Error as e:
             print(f"Error updating user data: {e}")
-        finally:
-            self.disconnect_from_db()
 
     def create_user(self, username, password, email):
         current_query_count = 0
         last_reset_date = datetime.now()
         subscription_type = "free"
         try:
-            self.connect_to_db()
             self.cursor = self.connection.cursor()
             query = "INSERT INTO users (username, password, email, current_query_count, last_reset_date, subscription_type) VALUES (%s, %s, %s, %s, %s, %s)"
             self.cursor.execute(query, (username, password, email, current_query_count, last_reset_date, subscription_type))
@@ -86,12 +79,10 @@ class dbHandler:
         except Error as e:
             print(f"Error creating user: {e}")
             return False
-        finally:
-            self.disconnect_from_db()
 
     def delete_user(self, user_id):
         try:
-            if self.connect_to_db():
+            if self.connection != None:
                 self.cursor = self.connection.cursor()
                 query = "DELETE FROM users WHERE user_id = %s"
                 self.cursor.execute(query, (user_id,))
@@ -101,12 +92,9 @@ class dbHandler:
                 return False
         except Error as e:
             print(f"Error deleting user: {e}")
-        finally:
-            self.disconnect_from_db()
 
     def validate_user(self, username_email, password):
         try:
-            self.connect_to_db()
             self.cursor = self.connection.cursor()
             
             query = """
@@ -125,13 +113,9 @@ class dbHandler:
         except Error as e:
             print(f"Error validating user: {e}")
             return False
-        finally:
-            self.disconnect_from_db()
-
 
     def get_user_id(self, username_email):
         try:
-            self.connect_to_db()
             self.cursor = self.connection.cursor(dictionary=True)
             query = "SELECT user_id FROM users WHERE username = %s OR email = %s"
             self.cursor.execute(query, (username_email,username_email,))
@@ -142,12 +126,9 @@ class dbHandler:
         except Error as e:
             print(f"Error getting user id: {e}")
             return None
-        finally:
-            self.disconnect_from_db()
 
     def get_username(self, username_email):
         try:
-            self.connect_to_db()
             self.cursor = self.connection.cursor(dictionary=True)
             query = "SELECT username FROM users WHERE username = %s OR email = %s"
             self.cursor.execute(query, (username_email, username_email))
@@ -158,5 +139,59 @@ class dbHandler:
         except Error as e:
             print(f"Error getting username: {e}")
             return None
-        finally:
-            self.disconnect_from_db()
+
+    def update_username(self, username):
+        try:
+            self.cursor = self.connection.cursor()
+            query = ""
+            self.cursor.execute(query, (username, username))
+            self.connection.commit()
+        except Error as e:
+            print(f"Error updating username: {e}")
+
+    def update_password(self, password):
+        try:
+            self.cursor = self.connection.cursor()
+            query = ""
+            self.cursor.execute(query, (password, password))
+            self.connection.commit()
+        except Error as e:
+            print(f"Error updating password: {e}")
+
+    def update_email(self, email):
+        try:
+            self.cursor = self.connection.cursor()
+            query = ""
+            self.cursor.execute(query, (email, email))
+            self.connection.commit()
+        except Error as e:
+            print(f"Error updating email: {e}")
+
+    def update_subscription(self, subscription):
+        try:
+            self.cursor = self.connection.cursor()
+            query = ""
+            self.cursor.execute(query, (subscription, subscription))
+            self.connection.commit()
+        except Error as e:
+            print(f"Error updating subscription: {e}")
+
+    def add_response_to_db(self, user_id, prod_id, response):
+        try:
+            self.cursor = self.connection.cursor()
+            query = ""
+            self.cursor.execute(query, (user_id, prod_id, response))
+            self.connection.commit()
+        except Error as e:
+            print(f"Error adding response to db: {e}")
+
+    def get_last_5_responses(self, user_id):
+        try:
+            self.cursor = self.connection.cursor(dictionary=True)
+            query = ""
+            self.cursor.execute(query, (user_id,))
+            responses = self.cursor.fetchall()
+            return responses
+        except Error as e:
+            print(f"Error getting last 5 responses: {e}")
+            return None

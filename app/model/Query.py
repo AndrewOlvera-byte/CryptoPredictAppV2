@@ -1,8 +1,8 @@
 import json
 
 class Query:
-    def __init__(self):
-        self.prod_id = ""
+    def __init__(self, prod_id=""):
+        self.prod_id = prod_id
     
     def get_prod_id(self):
         return self.prod_id
