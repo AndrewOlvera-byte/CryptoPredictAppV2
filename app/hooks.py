@@ -80,19 +80,47 @@ def save_model(response):
         except Exception as e:
             logger.error("Error saving model to Redis: %s", e)
 
-    # Set an extremely relaxed CSP for development
+    # This will remove any existing CSP header (in case it was set by another middleware)
+    response.headers.pop('Content-Security-Policy', None)
+    
+    # Set an extremely relaxed CSP for development - allowing ALL scripts and eval
     response.headers['Content-Security-Policy'] = (
-        "default-src * data: blob:; " 
-        "script-src * 'self' https://cdn.plot.ly data: blob: 'unsafe-inline' 'unsafe-eval';"
-        "style-src * data: blob: 'unsafe-inline'; " 
+        "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; " 
+        "script-src * 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.plot.ly data: blob:; "
+        "style-src * 'unsafe-inline' data: blob:; " 
         "img-src * data: blob:; " 
         "font-src * data: blob:; " 
         "connect-src * data: blob:; " 
         "media-src * data: blob:; " 
         "object-src * data: blob:; "
+        "frame-src * data: blob:; "
     )
+    
+    # Log the final CSP header for debugging
+    logger.info(f"Final CSP header: {response.headers.get('Content-Security-Policy')}")
+    
+    return response
+
+# This ensures our CSP overrides others
+def final_csp_check(response):
+    if 'Content-Security-Policy' not in response.headers:
+        # If CSP header was removed, add it back
+        response.headers['Content-Security-Policy'] = (
+            "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; " 
+            "script-src * 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.plot.ly data: blob:; "
+            "style-src * 'unsafe-inline' data: blob:; " 
+            "img-src * data: blob:; " 
+            "font-src * data: blob:; " 
+            "connect-src * data: blob:; " 
+            "media-src * data: blob:; " 
+            "object-src * data: blob:; "
+            "frame-src * data: blob:; "
+        )
     return response
 
 def init_hooks(app):
     app.before_request(load_model)
+    # First apply save_model
     app.after_request(save_model)
+    # Then make sure our CSP is the final one with a second handler
+    app.after_request(final_csp_check)

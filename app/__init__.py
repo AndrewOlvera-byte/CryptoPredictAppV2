@@ -26,5 +26,13 @@ def create_app():
     from app.hooks import init_hooks
     init_hooks(app)
     logger.info("Hooks initialized")
+    
+    # If in debug mode, ensure our CSP is applied last by adding an additional
+    # hook at the very end of initialization
+    if app.debug:
+        from app.hooks import final_csp_check
+        # Explicitly add as the very last after_request handler
+        app.after_request_funcs.setdefault(None, []).append(final_csp_check)
+        logger.info("Added final CSP check for debug mode")
 
     return app

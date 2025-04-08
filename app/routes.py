@@ -9,6 +9,16 @@ logger = logging.getLogger(__name__)
 def landing():
     return render_template('landing.html')
 
+# Debug endpoint to check CSP headers
+@main.route('/debug-csp')
+def debug_csp():
+    # Create a minimal response
+    response = jsonify({"message": "CSP Debug Endpoint"})
+    # Log all current headers
+    all_headers = dict(response.headers)
+    logger.info(f"Response headers before CSP: {all_headers}")
+    return response
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -47,8 +57,20 @@ def dashboard():
         if g.model.hasQueries():
             try:
                 g.model.user.update_query_count(1)
+                
+                # Get predictions from controller
                 predictions_list = controller.get_inference()
+                
+                # Log the predictions data for debugging
+                logger.info(f"Generated {len(predictions_list)} predictions")
+                if predictions_list and len(predictions_list) > 0:
+                    # Log sample data for debugging
+                    logger.info(f"Sample prediction data (first item): {json.dumps(predictions_list[0])}")
+                
+                # Save to database
                 db.add_response_to_db(session['user_id'], prod_id, json.dumps(predictions_list))
+                
+                # Return as JSON response with explicit serialization
                 return jsonify({'response': predictions_list})
             except Exception as e:
                 logger.error("Error generating response: %s", e)

@@ -2,6 +2,11 @@ import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
+import logging
+import json
+
+# Set up logger
+logger = logging.getLogger(__name__)
 
 class CryptoLSTM(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers=1, dropout=0.0, prediction_length=365):
@@ -55,9 +60,9 @@ class CryptoLSTM(nn.Module):
 
 
 def data_to_tensor(json_data):
-    print("Data received:", json_data)
+    logger.info("Data received: %s", json.dumps(json_data[:5])[:200] + "...")
     df = pd.DataFrame(json_data)
-    print("DataFrame columns:", df.columns)
+    logger.info("DataFrame columns: %s", df.columns.tolist())
 
     # Expected features: 'open', 'high', 'low', 'close', 'volume'
     features = ['open', 'high', 'low', 'close', 'volume']
@@ -88,18 +93,57 @@ def output_tensor_to_data(tensor):
     return json_str
 
 def model_predict_as_list(json_data, model_instance, device):
+    """
+    Convert input JSON data to tensor, run prediction through model, 
+    and return as Python list of dicts with proper numeric values.
+    """
+    # Convert JSON data to tensor
     data_array = data_to_tensor(json_data)
     data_tensor = torch.tensor(data_array, dtype=torch.float32).unsqueeze(0).to(device)
 
-    predictions = model_instance(data_tensor)
-    predictions_np = predictions.squeeze(0).detach().cpu().numpy()  # shape: (365, 5)
-
-    # Convert predictions_np to a list of dicts
+    # Run model prediction
+    with torch.no_grad():  # Ensure no gradients are calculated
+        predictions = model_instance(data_tensor)
+    
+    # Convert from tensor to numpy
+    predictions_np = predictions.squeeze(0).detach().cpu().numpy()
+    logger.info("Predictions shape: %s", str(predictions_np.shape))
+    
+    # Log the range of values in predictions to check they're not all the same
+    logger.info("Predictions min values: %s", np.min(predictions_np, axis=0))
+    logger.info("Predictions max values: %s", np.max(predictions_np, axis=0))
+    
+    # Convert to DataFrame for easier manipulation
     columns = ['open', 'high', 'low', 'close', 'volume']
     df = pd.DataFrame(predictions_np, columns=columns)
-    # If you want a 'day' field, re-add it:
+    
+    # Ensure values are rounded to reasonable precision
+    for col in columns:
+        if col != 'volume':  # Price fields rounded to 2 decimal places
+            df[col] = df[col].round(2)
+        else:  # Volume rounded to nearest integer
+            df[col] = df[col].round(0).astype(int)
+    
+    # Add day field
     df.insert(0, 'day', range(1, len(df) + 1))
-
-    # Convert to list of dicts
-    python_list = df.to_dict(orient='records')
+    
+    # Convert to list of dicts with explicit float/int conversion
+    # to ensure no serialization issues
+    python_list = []
+    for _, row in df.iterrows():
+        item_dict = {
+            'day': int(row['day']),
+            'open': float(row['open']),
+            'high': float(row['high']),
+            'low': float(row['low']),
+            'close': float(row['close']),
+            'volume': int(row['volume']),
+        }
+        python_list.append(item_dict)
+    
+    # Log first and last predictions for debugging
+    if python_list:
+        logger.info("First prediction item: %s", json.dumps(python_list[0]))
+        logger.info("Last prediction item: %s", json.dumps(python_list[-1]))
+        
     return python_list

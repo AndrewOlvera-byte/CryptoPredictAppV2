@@ -21,6 +21,13 @@ svg {
   vertical-align: middle;
 }
 
+/* SVG charts have different styling needs than icon SVGs */
+#graph svg, .js-plotly-plot svg {
+  width: 100%;
+  height: 100%;
+  fill: none; /* Don't inherit fill from the global svg rule */
+}
+
 /* Main container */
 .main-container {
   display: flex;
@@ -312,6 +319,7 @@ svg {
   flex-direction: column;
   height: 100%;
   min-height: 600px;
+  width: 100%;
 }
 
 .graph-header {
@@ -367,10 +375,35 @@ svg {
   border-radius: 12px;
   overflow: hidden;
   background-color: #2c2c30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  position: relative; /* Ensure stacking context is established */
+  z-index: 1; /* Ensure proper z-index */
 }
 
+/* Ensure Plotly is sized properly */
+.js-plotly-plot {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 400px !important;
+}
+
+.plotly {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* SVG specific fixes */
+.main-svg, .svg-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Remove unwanted transformations */
 .translated-chart {
-  transform: translate(100px, -100px);
+  transform: none;
 }
 
 .chatgpt-analysis {
@@ -474,7 +507,7 @@ svg {
 /* Responsive adjustments */
 @media (max-width: 1600px) {
   .graph-container {
-    width: calc(100% - 380px);
+    width: 100%;
   }
   
   .chatgpt-analysis {
@@ -484,21 +517,21 @@ svg {
 
 @media (max-width: 1400px) {
   .graph-container {
-    width: calc(100% - 380px);
-    left: -10px;
+    width: 100%;
+    left: 0;
   }
 }
 
 @media (max-width: 1200px) {
   .dynamic-content {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
+    gap: 30px;
     height: auto;
   }
   
   .graph-container {
     width: 100%;
-    height: 65vh;
+    min-height: 500px;
     margin-bottom: 20px;
     left: 0;
   }
@@ -508,8 +541,7 @@ svg {
     top: auto;
     right: auto;
     width: 100%;
-    height: 50vh;
-    margin-top: 20px;
+    min-height: 400px;
   }
 }
 
