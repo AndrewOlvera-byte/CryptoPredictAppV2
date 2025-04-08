@@ -61,6 +61,46 @@ def dashboard():
     
     return render_template('dashboard.html', session=session)
 
+@main.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template('profile.html', session=session)
+
+@main.route('/api/update_username', methods=['GET', 'POST'])
+def update_username():
+    controller.setModel(g.model)
+    if request.method == 'POST':
+        username = request.form.get('username')
+        if db.update_username(session['user_id'], username):
+            controller.update_username(username)
+            return jsonify({'success': True, 'message': 'Username updated successfully'}), 200
+        else:
+            return jsonify({'error': 'Failed to update username'}), 400
+    return jsonify({'error': 'Invalid request method'}), 405
+
+@main.route('/api/update_email', methods=['GET', 'POST'])
+def update_email():
+    controller.setModel(g.model)
+    if request.method == 'POST':
+        email = request.form.get('email')
+        if db.update_email(session['user_id'], email):
+            controller.update_email(email)
+            return jsonify({'success': True, 'message': 'Email updated successfully'}), 200
+        else:
+            return jsonify({'error': 'Failed to update email'}), 400
+    return jsonify({'error': 'Invalid request method'}), 405
+
+@main.route('/api/update_password', methods=['GET', 'POST'])
+def update_password():
+    controller.setModel(g.model)
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if db.update_password(session['user_id'], password):
+            controller.update_password(password)
+            return jsonify({'success': True, 'message': 'Password updated successfully'}), 200
+        else:
+            return jsonify({'error': 'Failed to update password'}), 400
+    return jsonify({'error': 'Invalid request method'}), 405
+
 @main.route('/chartTest', methods=['GET'])
 def chartTest():
     return render_template('chartTest.html')
