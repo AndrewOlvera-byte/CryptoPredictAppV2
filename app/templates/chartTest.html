@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plotly Card Test</title>
+  <!-- Load Plotly from a trusted CDN -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* Basic reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #1f1f1f;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      margin-bottom: 15px;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    /* The chart container */
+    #chart {
+      width: 100%;       /* Fill card width */
+      height: 400px;     /* Fixed height */
+      border: 1px solid #444;
+      border-radius: 4px;
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Card with header and chart container -->
+    <div class="card">
+      <div class="card-header">Market Analysis</div>
+      <div id="chart"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Define some placeholder data
+      const data = [
+        {
+          x: [1, 2, 3, 4, 5],
+          y: [10, 15, 13, 17, 10],
+          type: 'scatter',
+          mode: 'lines+markers',
+          marker: { color: 'red' }
+        }
+      ];
+
+      // Define the layout
+      const layout = {
+        title: 'Sample Plotly Chart',
+        paper_bgcolor: '#333',  // Overall chart background
+        plot_bgcolor: '#333',   // Plotting area background
+        font: { color: '#fff' },
+        width: 800,             // Optional fixed width
+        height: 400,            // Matches the container's height
+        margin: {
+          l: 60,
+          r: 30,
+          t: 50,
+          b: 50
+        }
+      };
+
+      // Render the chart
+      Plotly.newPlot('chart', data, layout);
+    });
+  </script>
+</body>
+</html>
