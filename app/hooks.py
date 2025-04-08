@@ -15,7 +15,7 @@ def get_model_key(user_id):
 
 def load_model():
     # Function called before each request
-    protected_endpoints = ['main.dashboard']  # note: blueprint routes are prefixed
+    protected_endpoints = ['main.dashboard', 'main.profile', 'main.update_username', 'main.update_email', 'main.update_password']  # note: blueprint routes are prefixed
     if request.endpoint not in protected_endpoints:
         return
 
